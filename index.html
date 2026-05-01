@@ -169,11 +169,9 @@
 
     <script>
         // Địa chỉ Web App của bạn
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwq_ueuWe_AEnvvN3QzBUTrBiawxbBZ_qi5Sz80JajQh3WBDt34AszHjZ8X7TvfN5N4/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxLROJoflqgq-7bnw4njHOy-mVdUHy2KeLOuAiU3Py3KoHypadB3pTBz1HkZ-AdNphs/exec";
 
         let base64ImagesArray = [];
-
-        // ĐÃ SỬA: Lắng nghe sự kiện 'change' đúng chuẩn
         document.getElementById('c_image').addEventListener('change', function(e) {
             const files = e.target.files;
             const textElement = document.getElementById('fileCountText');

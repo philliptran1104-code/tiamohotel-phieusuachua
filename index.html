@@ -180,12 +180,12 @@
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // THAY ĐƯỜNG LINK CỦA BẠN VÀO TRONG DẤU NGOẶC KÉP Ở DƯỚI NÀY
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        const SCRIPT_URL = "DÁN_LINK_WEB_APP_URL_CỦA_BẠN_VÀO_ĐÂY";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyVrV3r30bai4Vz08HsMZKMHk_Qfv2hj_h9yxhsD6RvgWKBNtyP0CgoBEvbtWnsKT-z/exec";
 
         let base64ImagesArray = [];
 
         // Lắng nghe sự kiện chọn file ảnh và chuyển đổi sang Base64
-        document.getElementById('c_image').addEventListener('change', function(e) {
+        document.getElementById('c_image').addEventListener('SCRIPT_URLchange', function(e) {
             const files = e.target.files;
             const textElement = document.getElementById('fileCountText');
             base64ImagesArray = []; // Reset mảng

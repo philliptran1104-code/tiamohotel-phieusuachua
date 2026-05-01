@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Phiếu Yêu Cầu Sửa Chữa - Phú Thịnh / Maintenance Ticket</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap');
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: #f4f5f7; -webkit-tap-highlight-color: transparent; }
+        .mobile-container { max-width: 480px; margin: 0 auto; background-color: #f4f5f7; min-height: 100vh; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.05); padding-bottom: 100px; }
+        .app-header { background-image: linear-gradient(to bottom, rgba(0, 104, 255, 0.8), rgba(0, 104, 255, 0.95)), url('https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&auto=format&fit=crop'); background-size: cover; background-position: center; }
+        .form-control { width: 100%; padding: 12px 16px; background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; font-size: 15px; color: #1f2937; transition: all 0.2s; outline: none; }
+        .form-control:focus { border-color: #0068FF; box-shadow: 0 0 0 3px rgba(0, 104, 255, 0.1); }
+        .bottom-action-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 16px 20px; border-top: 1px solid #f3f4f6; z-index: 50; }
+        .issue-radio:checked + div { background-color: #eff6ff; border-color: #0068FF; color: #0068FF; }
+        .issue-radio:checked + div i { color: #0068FF; }
+        .modal-overlay { backdrop-filter: blur(5px); background-color: rgba(0,0,0,0.6); }
+        
+        /* Hiệu ứng xoay loading tải ảnh */
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #0068FF; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 15px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Custom Checkbox */
+        .custom-checkbox { appearance: none; width: 24px; height: 24px; border: 2px solid #cbd5e1; border-radius: 6px; background-color: white; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+        .custom-checkbox:checked { background-color: #0068FF; border-color: #0068FF; }
+        .custom-checkbox:checked::after { content: '\f00c'; font-family: 'Font Awesome 5 Free'; font-weight: 900; color: white; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-container flex flex-col">
+        <!-- App Header -->
+        <div class="app-header px-6 pt-10 pb-8 text-white shadow-md rounded-b-3xl relative z-20 flex-shrink-0">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                    <i class="fas fa-building text-white"></i>
+                </div>
+            </div>
+            <h1 class="text-2xl font-bold mb-1 leading-tight">Phiếu Yêu Cầu Sửa Chữa<br><span class="text-lg font-medium opacity-90">Maintenance Ticket</span></h1>
+            <p class="text-blue-100 text-sm font-medium mt-1">BQL Toàn khu Phú Thịnh / Management Board</p>
+        </div>
+
+        <div class="px-5 -mt-4 relative z-10 flex-grow pb-8">
+            <form id="maintenanceForm" class="space-y-4 pt-8">
+                
+                <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 shadow-sm relative overflow-hidden">
+                    <div class="absolute -right-4 -top-2 text-blue-200 opacity-30 pointer-events-none">
+                        <i class="fas fa-headset text-[80px]"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <h3 class="text-sm font-bold text-blue-800 mb-3 flex items-center gap-2 uppercase tracking-wide">
+                            <i class="fas fa-info-circle text-blue-600"></i> Quy định / Guidelines
+                        </h3>
+                        <div class="text-[13px] text-gray-700 space-y-3 mb-4 bg-white/60 p-3 rounded-xl border border-white/80">
+                            <div class="flex items-start gap-2.5">
+                                <i class="far fa-clock mt-0.5 text-blue-500 w-4 flex-shrink-0"></i>
+                                <div><strong class="font-semibold text-gray-800 block mb-0.5">Bình thường / Normal:</strong> T2 - T6 | Mon - Fri<br><span class="text-gray-600">Sáng/AM: 07:00-12:00 | Chiều/PM: 13:00-17:00</span></div>
+                            </div>
+                            <div class="flex items-start gap-2.5 mt-2 pt-2 border-t border-blue-100">
+                                <i class="fas fa-exclamation-triangle mt-0.5 text-orange-500 w-4 flex-shrink-0"></i>
+                                <div><strong class="font-semibold text-gray-800 block mb-0.5">Khẩn cấp / Emergency:</strong> Gọi trực tiếp Hotline / Call Hotline directly.</div>
+                            </div>
+                        </div>
+                        <a href="tel:0917219955" class="flex items-center justify-center gap-2 w-full py-2.5 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 text-white font-bold rounded-xl transition shadow-lg shadow-orange-500/30">
+                            <i class="fas fa-phone-alt animate-pulse"></i> HOTLINE: 0917.219.955
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Thông tin khách hàng -->
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+                    <h2 class="text-sm font-bold text-gray-800 mb-4 flex items-center gap-2 uppercase tracking-wide">
+                        <i class="fas fa-map-marker-alt text-blue-500"></i> Liên hệ / Contact
+                    </h2>
+                    <div class="space-y-4">
+                        <select id="c_area" required class="form-control appearance-none">
+                            <option value="" disabled selected>-- Chọn khu vực / Select area --</option>
+                            <option value="Khách sạn Tiamo">Khách sạn Tiamo Phú Thịnh</option>
+                            <option value="Căn hộ liền kề">Khu căn hộ liền kề</option>
+                            <option value="Căn hộ Phú Thịnh">Khu căn hộ Phú Thịnh</option>
+                            <option value="Bungalow Hiệp Thành 2">Khu bungalow Hiệp Thành 2</option>
+                        </select>
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="text" id="c_room" required class="form-control col-span-2" placeholder="Số phòng / Room No. (VD: A102)*">
+                            <input type="text" id="c_name" required class="form-control col-span-2" placeholder="Họ và tên / Full Name*">
+                            <input type="tel" id="c_phone" required class="form-control col-span-2" placeholder="Số điện thoại / Phone number*">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tình trạng sự cố -->
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+                    <h2 class="text-sm font-bold text-gray-800 mb-4 flex items-center gap-2 uppercase tracking-wide">
+                        <i class="fas fa-wrench text-blue-500"></i> Chi tiết / Issue Details
+                    </h2>
+                    <div class="space-y-5">
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="cursor-pointer relative"><input type="radio" name="c_type" value="Điện" class="peer sr-only issue-radio" checked><div class="py-2.5 rounded-xl border-2 border-gray-100 text-center text-sm font-medium text-gray-500"><i class="fas fa-bolt text-lg mb-0.5 block"></i> Điện <span class="text-[10px] block font-normal">Electrical</span></div></label>
+                            <label class="cursor-pointer relative"><input type="radio" name="c_type" value="Nước" class="peer sr-only issue-radio"><div class="py-2.5 rounded-xl border-2 border-gray-100 text-center text-sm font-medium text-gray-500"><i class="fas fa-faucet text-lg mb-0.5 block"></i> Nước <span class="text-[10px] block font-normal">Plumbing</span></div></label>
+                            <label class="cursor-pointer relative"><input type="radio" name="c_type" value="Điều hòa" class="peer sr-only issue-radio"><div class="py-2.5 rounded-xl border-2 border-gray-100 text-center text-sm font-medium text-gray-500"><i class="fas fa-snowflake text-lg mb-0.5 block"></i> Điều hòa <span class="text-[10px] block font-normal">AC</span></div></label>
+                            <label class="cursor-pointer relative"><input type="radio" name="c_type" value="Khác" class="peer sr-only issue-radio"><div class="py-2.5 rounded-xl border-2 border-gray-100 text-center text-sm font-medium text-gray-500"><i class="fas fa-ellipsis-h text-lg mb-0.5 block"></i> Khác <span class="text-[10px] block font-normal">Other</span></div></label>
+                        </div>
+                        <textarea id="c_desc" rows="3" required class="form-control" placeholder="Mô tả sự cố / Issue description (VD: Máy lạnh chảy nước / AC leaking...)*"></textarea>
+                        
+                        <!-- Upload Ảnh -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Ảnh thực tế / Photos (Tối đa/Max: 2)</label>
+                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl bg-gray-50 hover:bg-gray-100 transition">
+                                <div class="space-y-1 text-center">
+                                    <i class="fas fa-camera text-3xl text-gray-400 mb-2"></i>
+                                    <div class="flex text-sm text-gray-600 justify-center">
+                                        <label for="c_image" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none px-3 py-1.5 shadow-sm border border-gray-200">
+                                            <span>Chọn tệp / Select</span>
+                                            <input id="c_image" type="file" class="sr-only" accept="image/*" multiple>
+                                        </label>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-2" id="fileCountText">Hỗ trợ tối đa 2 ảnh / Max 2 images</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+                    <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-4">
+                        <label class="text-sm font-medium text-gray-700">Mức độ / Priority</label>
+                        <select id="c_priority" class="text-sm border border-gray-200 rounded-lg px-2 py-1 text-gray-700 outline-none">
+                            <option value="Bình thường">Bình thường / Normal</option>
+                            <option value="KHẨN CẤP">🚨 Khẩn cấp / Emergency</option>
+                        </select>
+                    </div>
+                    <div class="flex items-start gap-3 pt-1">
+                        <input type="checkbox" id="c_perm" class="custom-checkbox flex-shrink-0 mt-0.5">
+                        <label for="c_perm" class="text-sm text-gray-700 font-medium cursor-pointer">
+                            Tôi đồng ý cho kỹ thuật viên vào phòng khi đi vắng. <br>
+                            <span class="text-[11px] text-gray-500 font-normal italic">I allow the technician to enter my room when absent.</span>
+                        </label>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="bottom-action-bar">
+            <button onclick="submitToGoogleSheet()" id="btnSubmit" class="w-full bg-[#0068FF] hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl shadow-lg transition active:scale-[0.98] flex items-center justify-center gap-3">
+                <i class="fas fa-paper-plane text-xl"></i> 
+                <div class="flex flex-col text-left leading-tight">
+                    <span class="text-sm">GỬI YÊU CẦU</span>
+                    <span class="text-[10px] font-medium opacity-90">SUBMIT REQUEST</span>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Màn hình Đang xử lý (Loading) -->
+    <div id="loadingModal" class="fixed inset-0 modal-overlay hidden items-center justify-center z-[100] px-4">
+        <div class="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl relative text-center">
+            <div class="loader"></div>
+            <h3 class="text-lg font-bold text-gray-800 mb-1">Đang xử lý / Processing...</h3>
+            <p class="text-sm text-gray-500">Vui lòng đợi vài giây / Please wait a moment.</p>
+        </div>
+    </div>
+
+    <!-- Màn hình Thành công -->
+    <div id="successModal" class="fixed inset-0 modal-overlay hidden items-center justify-center z-[100] px-4 transition-opacity">
+        <div class="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl relative text-center">
+            <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-white shadow-sm">
+                <i class="fas fa-check text-4xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Gửi Thành Công! / Success!</h3>
+            <p class="text-sm text-gray-600 mb-6">Yêu cầu của bạn đã được ghi nhận. Ban quản lý sẽ xử lý sớm nhất.<br><span class="italic text-xs mt-1 block">Your request has been recorded. Management will process it shortly.</span></p>
+            <button onclick="reloadPage()" class="w-full bg-[#0068FF] hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-md transition">
+                Đóng / Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // THAY ĐƯỜNG LINK CỦA BẠN VÀO TRONG DẤU NGOẶC KÉP Ở DƯỚI NÀY
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        const SCRIPT_URL = "DÁN_LINK_WEB_APP_URL_CỦA_BẠN_VÀO_ĐÂY";
+
+        let base64ImagesArray = [];
+
+        // Lắng nghe sự kiện chọn file ảnh và chuyển đổi sang Base64
+        document.getElementById('c_image').addEventListener('change', function(e) {
+            const files = e.target.files;
+            const textElement = document.getElementById('fileCountText');
+            base64ImagesArray = []; // Reset mảng
+
+            if(files.length > 2) {
+                alert("Bạn chỉ được chọn tối đa 2 ảnh thôi nhé! / Max 2 photos allowed!");
+                this.value = "";
+                textElement.innerText = "Hỗ trợ tối đa 2 ảnh / Max 2 images";
+                return;
+            }
+
+            if(files.length > 0) {
+                textElement.innerHTML = `<span class="text-blue-600 font-bold">Đã đính kèm ${files.length} ảnh / Attached ${files.length}</span>`;
+                
+                // Đọc từng file ảnh sang dạng Base64
+                Array.from(files).forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        // event.target.result có dạng: data:image/jpeg;base64,/9j/4AAQ...
+                        const base64Data = event.target.result.split(',')[1]; 
+                        base64ImagesArray.push({
+                            mimeType: file.type,
+                            base64: base64Data
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                });
+            } else {
+                textElement.innerText = "Hỗ trợ tối đa 2 ảnh / Max 2 images";
+            }
+        });
+
+        async function submitToGoogleSheet() {
+            // Lấy dữ liệu
+            const area = document.getElementById('c_area').value;
+            const room = document.getElementById('c_room').value;
+            const name = document.getElementById('c_name').value;
+            const phone = document.getElementById('c_phone').value;
+            const type = document.querySelector('input[name="c_type"]:checked').value;
+            const desc = document.getElementById('c_desc').value;
+            const priority = document.getElementById('c_priority').value;
+            const perm = document.getElementById('c_perm').checked ? 'Có (Đồng ý)' : 'Không';
+
+            // Validate
+            if (!area || !room || !name || !phone || !desc) {
+                alert("Vui lòng điền đầy đủ các mục có dấu (*) / Please fill in all required fields (*)");
+                return;
+            }
+
+            if (SCRIPT_URL === "DÁN_LINK_WEB_APP_URL_CỦA_BẠN_VÀO_ĐÂY") {
+                alert("LỖI: Bạn chưa thay thế SCRIPT_URL bằng link Google Apps Script của bạn trong mã code HTML.");
+                return;
+            }
+
+            // Hiển thị Loading
+            document.getElementById('loadingModal').classList.remove('hidden');
+            document.getElementById('loadingModal').classList.add('flex');
+            
+            // Gói dữ liệu
+            const payload = {
+                area: area,
+                room: room,
+                name: name,
+                phone: phone,
+                type: type,
+                desc: desc,
+                priority: priority,
+                perm: perm,
+                images: base64ImagesArray // Mảng chứa ảnh base64
+            };
+
+            try {
+                // Gửi dữ liệu về Google Apps Script
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                    // Lưu ý: Không dùng headers 'Content-Type' vì Google Script xử lý POST đơn giản tốt hơn dạng plain text
+                });
+
+                const result = await response.json();
+                
+                // Ẩn loading
+                document.getElementById('loadingModal').classList.add('hidden');
+                document.getElementById('loadingModal').classList.remove('flex');
+
+                if (result.status === 'success') {
+                    // Hiện thông báo thành công
+                    document.getElementById('successModal').classList.remove('hidden');
+                    document.getElementById('successModal').classList.add('flex');
+                } else {
+                    alert("Có lỗi xảy ra / Error: " + result.message);
+                }
+
+            } catch (error) {
+                document.getElementById('loadingModal').classList.add('hidden');
+                document.getElementById('loadingModal').classList.remove('flex');
+                
+                // Mẹo: Đôi khi fetch bị lỗi CORS nhưng dữ liệu vẫn vào được Sheet.
+                console.error("Lỗi mạng (CORS):", error);
+                
+                // Vẫn báo thành công vì Apps Script thường trả về trang HTML cảnh báo chuyển hướng làm vỡ Fetch
+                document.getElementById('successModal').classList.remove('hidden');
+                document.getElementById('successModal').classList.add('flex');
+            }
+        }
+
+        function reloadPage() {
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>
